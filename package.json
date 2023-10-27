@@ -1,0 +1,49 @@
+{
+	"name": "web3id",
+	"version": "1.0.10",
+	"description": "User identification system based on web3 technology",
+	"keywords": [
+		"web3id",
+		"web3-id",
+		"web3 id",
+		"web3auth",
+		"web3-auth",
+		"web3 auth",
+		"web3 account",
+		"web3 user"
+	],
+	"leadMaintainer": "DeNetwork, Team.",
+	"main": "dist/index.js",
+	"browser": "dist/index.js",
+	"license": "MIT",
+	"files": [
+		"src",
+		"dist"
+	],
+	"scripts": {
+		"clean": "rm -rf dist",
+		"build": "npm run clean && tsc",
+		"test": "jest"
+	},
+	"devDependencies": {
+		"@babel/preset-env": "^7.21.5",
+		"@babel/preset-typescript": "^7.21.5",
+		"@jest/globals": "^29.5.0",
+		"@types/jest": "^29.5.1",
+		"@types/lodash": "^4.14.196",
+		"jest": "^29.5.0",
+		"ts-jest": "^29.1.0",
+		"ts-node": "^10.9.1"
+	},
+	"dependencies": {
+		"denetwork-utils": "^1.0.35",
+		"ethers": "^6.7.1",
+		"lodash": "^4.17.21",
+		"uint8arrays": "^4.0.6"
+	},
+	"author": "DeNetwork, Team.",
+	"homepage": "https://github.com/denetwork/web3id",
+	"contributors": [
+		"DeNetwork, Team."
+	]
+}
