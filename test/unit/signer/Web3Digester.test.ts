@@ -1,9 +1,8 @@
 import { describe, expect } from '@jest/globals';
-import { EtherWallet, Web3Validator } from "../../../src";
-import { ethers } from "ethers";
+import { EtherWallet } from "../../../src";
 import { Web3Signer } from "../../../src";
 import { TWalletBaseItem } from "../../../src";
-import { Web3Digester } from "../../../src/signer/Web3Digester";
+import { Web3Digester } from "../../../src";
 
 
 

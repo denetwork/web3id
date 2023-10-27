@@ -1,5 +1,4 @@
 import { TypeUtil } from "denetwork-utils";
-import { EtherWallet } from "./EtherWallet";
 
 /**
  * 	@class Web3Encoder

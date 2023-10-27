@@ -87,7 +87,7 @@ export class EtherWallet
 					return reject( `invalid keystoreJson` );
 				}
 
-				const progressCallback : ProgressCallback = ( percent: number ) =>
+				const progressCallback : ProgressCallback = ( _percent: number ) =>
 				{
 					//	A callback during long-running operations to update any UI or
 					//	provide programmatic access to the progress.
@@ -148,7 +148,7 @@ export class EtherWallet
 					privateKey: wallet.privateKey,
 				};
 				const encryptOptions : EncryptOptions = {
-					progressCallback : ( percent: number ) =>
+					progressCallback : ( _percent: number ) =>
 					{
 						//	A callback during long-running operations to update any UI or
 						//	provide programmatic access to the progress.
