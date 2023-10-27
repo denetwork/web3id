@@ -1,5 +1,6 @@
 # web3id
-`web3id`(web3auth, web3-auth) is a simple and easy-to-use software development toolkit based on blockchain technology that integrates the creation of web3 signer, data signature, and signature verification.
+`web3id`(web3auth, web3-auth) is a simple and easy-to-use software development toolkit for Web3. 
+Based on Ethereum wallet technology, including signing data, signature verifying and identity authenticating.
 
 ## How it works
 - Sign the data with the wallet's private key, and you will get a signature string.
