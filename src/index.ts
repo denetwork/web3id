@@ -1,13 +1,9 @@
-import { TWalletBaseItem, TWalletItem } from "./models/TWallet";
-export { TWalletBaseItem, TWalletItem };
+export * from "./models/TWallet";
 
-import { EtherWallet } from "./signer/EtherWallet";
-export { EtherWallet };
+export * from "./signer/EtherWallet";
+export * from "./signer/Web3Digester";
 
-import { Web3Encoder } from "./signer/Web3Encoder";
-import { Web3Signer } from "./signer/Web3Signer";
-import { Web3Validator } from "./signer/Web3Validator";
-export { Web3Encoder, Web3Signer, Web3Validator };
+export * from "./signer/Web3Encoder";
+export * from "./signer/Web3Signer";
 
-import { Web3Digester } from "./signer/Web3Digester";
-export { Web3Digester };
+export * from "./signer/Web3Validator";

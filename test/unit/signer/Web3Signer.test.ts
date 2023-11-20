@@ -1,6 +1,6 @@
 import { describe, expect } from '@jest/globals';
 import { EtherWallet, Web3Validator } from "../../../src";
-import { ethers } from "ethers";
+import { ethers, isHexString } from "ethers";
 import { Web3Signer } from "../../../src";
 import { TWalletBaseItem } from "../../../src";
 
@@ -55,6 +55,8 @@ describe( "Signer", () =>
 			expect( toBeSignedObject.sig ).toBeDefined();
 			expect( typeof toBeSignedObject.sig ).toBe( 'string' );
 			expect( toBeSignedObject.sig.length ).toBeGreaterThanOrEqual( 0 );
+			expect( isHexString( toBeSignedObject.sig, 65 ) ).toBeTruthy();
+			expect( Web3Signer.isValidSig( toBeSignedObject.sig ) ).toBeTruthy();
 			// console.log( toBeSignedObject.sig );
 			// 0xa52c1d36c2528a2f460ea5a344481d38455f78c0bd046802a51aefafc275ef1678a09aa8151e49cc2880131ad247fd6d469e1367b16ff08eff3ccfa9d654679f1c
 

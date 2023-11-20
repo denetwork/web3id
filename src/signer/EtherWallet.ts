@@ -1,11 +1,11 @@
 import {
 	ethers,
 	KeystoreAccount, EncryptOptions, ProgressCallback,
-	isKeystoreJson, decryptKeystoreJson, encryptKeystoreJson, isAddress
+	isKeystoreJson, decryptKeystoreJson, encryptKeystoreJson, isAddress, isHexString
 } from "ethers";
 import { TypeUtil } from "denetwork-utils";
 import { TWalletBaseItem } from "../models/TWallet";
-
+import _ from "lodash";
 
 /**
  * 	@class
@@ -19,6 +19,60 @@ export class EtherWallet
 	public static isValidWalletFactoryData( wallet : any ) : boolean
 	{
 		return TypeUtil.isNotNullObjectWithKeys( wallet, [ 'isHD', 'mnemonic', 'password', 'address', 'publicKey', 'privateKey', 'index', 'path' ] );
+	}
+
+	// public static createDerivedWalletObject( walletItem : TWalletBaseItem, derivePath ?: string )
+	// {
+	// 	const walletObject = this.createWalletObject( walletItem );
+	// 	if ( walletObject )
+	// 	{
+	// 		const derivedWalletObject = walletObject.derivePath( derivePath );
+	// 	}
+	// }
+
+	/**
+	 *	@param walletItem	{TWalletBaseItem}
+	 *	@returns { ethers.HDNodeWallet | ethers.Wallet | null }
+	 */
+	public static createWalletObject( walletItem : TWalletBaseItem ) : ethers.HDNodeWallet | ethers.HDNodeVoidWallet | ethers.Wallet | null
+	{
+		if ( null === walletItem )
+		{
+			throw new Error( `invalid walletItem` );
+		}
+
+		let walletObject = null;
+		if ( walletItem.mnemonic &&
+			ethers.Mnemonic.isValidMnemonic( walletItem.mnemonic ) )
+		{
+			const mnemonicObj = ethers.Mnemonic.fromPhrase( walletItem.mnemonic );
+			if ( ! mnemonicObj || ! mnemonicObj.phrase )
+			{
+				throw new Error( `failed to create mnemonic object` );
+			}
+
+			walletObject = ethers.HDNodeWallet.fromMnemonic( mnemonicObj );
+		}
+		else if ( _.isString( walletItem.privateKey ) && ! _.isEmpty( walletItem.privateKey ) )
+		{
+			let privateKeyObj;
+			try
+			{
+				if ( ! walletItem.privateKey.startsWith( '0x' ) )
+				{
+					walletItem.privateKey = '0x' + walletItem.privateKey;
+				}
+				privateKeyObj = new ethers.SigningKey( walletItem.privateKey );
+			}
+			catch ( error )
+			{
+				throw new Error( 'invalid format of private key' );
+			}
+
+			walletObject = new ethers.Wallet( privateKeyObj );
+		}
+
+		return walletObject;
 	}
 
 	/**
@@ -329,10 +383,29 @@ export class EtherWallet
 	 *	@param address	{string} wallet address
 	 *	@return {boolean}
 	 */
-	public static isValidAddress( address : string ) : boolean
+	public static isValidAddress( address : any ) : boolean
 	{
-		return isAddress( address );
+		return _.isString( address ) && ! _.isEmpty( address ) && isAddress( address );
 	}
+
+	/**
+	 *	@param privateKey	{any}
+	 *	@returns {boolean}
+	 */
+	public static isValidPrivateKey( privateKey : any ) : boolean
+	{
+		return _.isString( privateKey ) && ! _.isEmpty( privateKey ) && isHexString( privateKey, 32 );
+	}
+
+	/**
+	 *	@param publicKey	{any}
+	 *	@returns {boolean}
+	 */
+	public static isValidPublicKey( publicKey : any ) : boolean
+	{
+		return _.isString( publicKey ) && ! _.isEmpty( publicKey ) && isHexString( publicKey, 33 );
+	}
+
 
 	/**
 	 *	Generate a new address for the specified wallet

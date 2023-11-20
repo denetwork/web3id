@@ -1,6 +1,7 @@
-import { ethers, SigningKey } from "ethers"
+import { ethers, isHexString, SigningKey } from "ethers"
 import { Web3Encoder } from "./Web3Encoder";
 import { EtherWallet } from "./EtherWallet";
+import _ from "lodash";
 
 
 /**
@@ -78,5 +79,14 @@ export class Web3Signer
 				reject( err );
 			}
 		});
+	}
+
+	/**
+	 *	@param sig	{any}
+	 *	@returns {boolean}
+	 */
+	public static isValidSig( sig : any ) : boolean
+	{
+		return _.isString( sig ) && ! _.isEmpty( sig ) && isHexString( sig, 65 );
 	}
 }

@@ -1,7 +1,8 @@
-import { keccak256 } from "ethers";
+import { isHexString, keccak256 } from "ethers";
 import { Web3Encoder } from "./Web3Encoder";
 import { TypeUtil } from "denetwork-utils";
 import { EtherWallet } from "./EtherWallet";
+import _ from "lodash";
 
 /**
  * 	@class Web3Digester
@@ -44,5 +45,14 @@ export class Web3Digester
 				reject( err );
 			}
 		});
+	}
+
+	/**
+	 *	@param hash	{any}
+	 *	@returns {boolean}
+	 */
+	public static isValidHash( hash : any ) : boolean
+	{
+		return _.isString( hash ) && ! _.isEmpty( hash ) && isHexString( hash, 32 );
 	}
 }

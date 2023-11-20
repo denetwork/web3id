@@ -52,6 +52,7 @@ describe( "Digester", () =>
 			expect( hashValue1 ).toBeDefined();
 			expect( typeof hashValue1 ).toBe( 'string' );
 			expect( hashValue1.length ).toBeGreaterThanOrEqual( 0 );
+			expect( Web3Digester.isValidHash( hashValue1 ) ).toBeTruthy();
 			//console.log( hashValue1 );
 			// 0x77846cd6ef81d02bcf9b5475a3dc759e8d0558f4892edd30a2186a3b450214b8
 
