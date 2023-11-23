@@ -25,6 +25,10 @@ describe( "EtherWallet", () =>
 			expect( EtherWallet.isValidAddress( walletObj.address ) ).toBeTruthy();
 			expect( EtherWallet.isValidPrivateKey( walletObj.privateKey ) ).toBeTruthy();
 			expect( EtherWallet.isValidPublicKey( walletObj.publicKey ) ).toBeTruthy();
+
+			expect( EtherWallet.isValidLowercaseHex( walletObj.address ) ).toBeTruthy();
+			expect( EtherWallet.isValidLowercaseHex( walletObj.privateKey ) ).toBeTruthy();
+			expect( EtherWallet.isValidLowercaseHex( walletObj.publicKey ) ).toBeTruthy();
 		} );
 
 		it( "should create a wallet from a empty mnemonic", async () =>
@@ -135,7 +139,7 @@ describe( "EtherWallet", () =>
 			expect( walletObj.mnemonic ).toBe( '' );
 			expect( walletObj.privateKey ).toEqual( privateKey );
 			expect( walletObj.publicKey ).toEqual( publicKey );
-			expect( walletObj.address ).toEqual( address );
+			expect( walletObj.address ).toEqual( address.trim().toLowerCase() );
 			expect( walletObj.index ).toBe( 0 );
 			expect( walletObj.path ).toBe( null );
 		} );
@@ -257,17 +261,17 @@ describe( "EtherWallet", () =>
 			const thirdAddress = '0xE05eCB996dA9D59315d569D65C93Af68bA9AA4a5';
 
 			const walletObj = EtherWallet.createWalletFromMnemonic( mnemonic );
-			expect( walletObj.address ).toBe( firstAddress );
+			expect( walletObj.address ).toBe( firstAddress.trim().toLowerCase() );
 			expect( walletObj.index ).toBe( 0 );
 			expect( walletObj.path ).toBe( ethers.defaultPath );
 
 			const secondWalletObj = EtherWallet.createNewAddress( walletObj );
-			expect( secondWalletObj.address ).toBe( secondAdderss );
+			expect( secondWalletObj.address ).toBe( secondAdderss.trim().toLowerCase() );
 			expect( secondWalletObj.index ).toBe( 1 );
 			expect( secondWalletObj.path ).toBe( ethers.getIndexedAccountPath( 1 ) );
 
 			const thirdWalletObj = EtherWallet.createNewAddress( secondWalletObj );
-			expect( thirdWalletObj.address ).toBe( thirdAddress );
+			expect( thirdWalletObj.address ).toBe( thirdAddress.trim().toLowerCase() );
 			expect( thirdWalletObj.index ).toBe( 2 );
 			expect( thirdWalletObj.path ).toBe( ethers.getIndexedAccountPath( 2 ) );
 		} );

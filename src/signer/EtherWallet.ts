@@ -110,7 +110,7 @@ export class EtherWallet
 		}
 
 		const walletObj = ethers.HDNodeWallet.fromMnemonic( mnemonicObj )
-		return {
+		return this.decorateResult({
 			isHD : true,
 			mnemonic : walletObj?.mnemonic?.phrase,
 			password : '',
@@ -119,7 +119,7 @@ export class EtherWallet
 			privateKey : walletObj?.privateKey,
 			index : walletObj?.index,
 			path : walletObj?.path
-		}
+		});
 	}
 
 	/**
@@ -260,7 +260,7 @@ export class EtherWallet
 					// privateKey : deriveWallet.privateKey,
 					index : deriveWallet.index,
 					path : ethers.defaultPath,
-				}
+				};
 				break;
 
 			case 3:
@@ -274,7 +274,7 @@ export class EtherWallet
 					// privateKey : deriveWallet.privateKey,
 					index : deriveWallet.index,
 					path : ethers.defaultPath
-				}
+				};
 				break;
 			case 4:
 				//	给出衍生路径，补齐五层衍生路径为 "m/44'/60'/0'/0/0"，补的就是最后的 "/0"
@@ -286,13 +286,13 @@ export class EtherWallet
 					// privateKey : deriveWallet.privateKey,
 					index : deriveWallet.index,
 					path : ethers.defaultPath
-				}
+				};
 				break
 			default:
 				throw new Error( 'Unsupported type of extended private key' );
 		}
 
-		return wallet;
+		return this.decorateResult( wallet );
 	}
 
 
@@ -334,7 +334,7 @@ export class EtherWallet
 		const walletObj = new ethers.Wallet( privateKeyObj )
 		//console.log( `🧲`, JSON.stringify( walletObj ) );
 
-		return {
+		return this.decorateResult({
 			isHD : false,
 			mnemonic : '',
 			password : '',
@@ -343,7 +343,7 @@ export class EtherWallet
 			privateKey : walletObj.privateKey,
 			index : 0,	//	walletObj.index,
 			path : null,	//	walletObj.path
-		}
+		});
 	}
 
 	/**
@@ -358,7 +358,7 @@ export class EtherWallet
 			throw new Error( 'invalid address' )
 		}
 
-		return {
+		return this.decorateResult({
 			isHD : false,
 			mnemonic : '',
 			password : '',
@@ -367,7 +367,7 @@ export class EtherWallet
 			privateKey : '',
 			index : 0,	//	walletObj.index,
 			path : null,	//	walletObj.path
-		}
+		});
 	}
 
 	/**
@@ -406,6 +406,15 @@ export class EtherWallet
 		return _.isString( publicKey ) && ! _.isEmpty( publicKey ) && isHexString( publicKey, 33 );
 	}
 
+	/**
+	 *	@param input	{any}
+	 *	@returns {boolean}
+	 */
+	public static isValidLowercaseHex( input : any ): boolean
+	{
+		const hexPattern = /^(0x)?[0-9a-f]+$/;
+		return _.isString( input ) && ! _.isEmpty( input ) && hexPattern.test( input );
+	}
 
 	/**
 	 *	Generate a new address for the specified wallet
@@ -423,7 +432,7 @@ export class EtherWallet
 		const nextPath = ethers.getIndexedAccountPath( wallet.index + 1 )
 		const walletObj = ethers.HDNodeWallet.fromMnemonic( mnemonicObj, nextPath )
 
-		return {
+		return this.decorateResult({
 			isHD : true,
 			mnemonic : walletObj?.mnemonic?.phrase,
 			password : '',
@@ -432,6 +441,26 @@ export class EtherWallet
 			privateKey : walletObj.privateKey,
 			index : walletObj.index,
 			path : walletObj.path
+		});
+	}
+
+	/**
+	 *	@param walletItem	{TWalletBaseItem}
+	 *	@returns {TWalletBaseItem}
+	 *	@private
+	 */
+	private static decorateResult( walletItem : TWalletBaseItem ) : TWalletBaseItem
+	{
+		if ( ! walletItem )
+		{
+			throw new Error( `invalid walletItem` );
 		}
+
+		return {
+			...walletItem,
+			address : _.isString( walletItem.address ) ? walletItem.address.trim().toLowerCase() : walletItem.address,
+			publicKey : _.isString( walletItem.publicKey ) ? walletItem.publicKey.trim().toLowerCase() : walletItem.publicKey,
+			privateKey : _.isString( walletItem.privateKey ) ? walletItem.privateKey.trim().toLowerCase() : walletItem.privateKey,
+		};
 	}
 }
