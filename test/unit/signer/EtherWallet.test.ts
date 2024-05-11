@@ -1,7 +1,7 @@
 import { describe, expect } from '@jest/globals';
 import { ethers, isAddress } from "ethers";
-import { TypeUtil } from "denetwork-utils";
 import { TWalletBaseItem, EtherWallet } from "../../../src";
+import _ from "lodash";
 
 /**
  *	WalletFactory unit test
@@ -186,7 +186,7 @@ describe( "EtherWallet", () =>
 			const keystoreJson : string = await EtherWallet.getKeystoreOfWallet( walletObj, password );
 			expect( keystoreJson ).toBeDefined();
 			expect( typeof keystoreJson ).toBe( "string" );
-			expect( TypeUtil.isNotEmptyString( keystoreJson ) ).toBeTruthy();
+			expect( _.isString( keystoreJson ) && ! _.isEmpty( keystoreJson ) ).toBeTruthy();
 
 			//	should output:
 			//	{"address":"d4a9f003c167df8d5b1851c73b42b8c3d6b2276a","id":"ae16f5fc-92d5-45d5-8db0-051ebed0e19b","version":3,"Crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"75aa6bfbea37eced7c404f3149739b9e"},"ciphertext":"7cfa38b1e0c9b8bd7afbfbd247b7ac7a71af6788a6c9548762b3cf895626de4c","kdf":"scrypt","kdfparams":{"salt":"457447b29ae32b0470bc97818ceb17383498cf5620b668704134ea40114d2ddd","n":131072,"dklen":32,"p":1,"r":8},"mac":"c63c48b18ead9420a3bd448d99bdf50c6da685aec9092e3c9628817e4e2d40e9"}}

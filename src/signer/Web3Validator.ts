@@ -1,6 +1,6 @@
-import { TypeUtil } from "denetwork-utils";
 import { verifyMessage } from "ethers";
 import { Web3Encoder } from "./Web3Encoder";
+import _ from "lodash";
 
 /**
  * 	@class Web3Validator
@@ -20,15 +20,15 @@ export class Web3Validator
 		{
 			try
 			{
-				if ( ! TypeUtil.isNotEmptyString( signerWalletAddress ) )
+				if ( ! _.isString( signerWalletAddress ) || _.isEmpty( signerWalletAddress ) )
 				{
 					return reject( `invalid signerWalletAddress` );
 				}
-				if ( ! TypeUtil.isNotNullObject( obj ) )
+				if ( ! _.isObject( obj ) || null === obj )
 				{
 					return reject( `invalid obj` );
 				}
-				if ( ! TypeUtil.isNotEmptyString( sig ) )
+				if ( ! _.isString( sig ) || _.isEmpty( sig ) )
 				{
 					return reject( `invalid sig` );
 				}
@@ -58,7 +58,7 @@ export class Web3Validator
 		{
 			try
 			{
-				if ( ! TypeUtil.isNotEmptyString( signerWalletAddress ) )
+				if ( ! _.isString( signerWalletAddress ) || _.isEmpty( signerWalletAddress ) )
 				{
 					return reject( `invalid signerWalletAddress` );
 				}
@@ -66,7 +66,7 @@ export class Web3Validator
 				{
 					return reject( `invalid message` );
 				}
-				if ( ! TypeUtil.isNotEmptyString( sig ) )
+				if ( ! _.isString( sig ) || _.isEmpty( sig ) )
 				{
 					return reject( `invalid sig` );
 				}

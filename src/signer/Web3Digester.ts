@@ -1,6 +1,5 @@
 import { isHexString, keccak256 } from "ethers";
 import { Web3Encoder } from "./Web3Encoder";
-import { TypeUtil } from "denetwork-utils";
 import { EtherWallet } from "./EtherWallet";
 import _ from "lodash";
 
@@ -28,7 +27,7 @@ export class Web3Digester
 				{
 					return reject( `invalid obj.wallet` );
 				}
-				if ( ! TypeUtil.isNumeric( obj.timestamp ) || obj.timestamp <= 0 )
+				if ( ! _.isNumber( obj.timestamp ) || obj.timestamp <= 0 )
 				{
 					return reject( `invalid obj.timestamp` );
 				}

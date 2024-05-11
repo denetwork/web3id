@@ -3,7 +3,6 @@ import {
 	KeystoreAccount, EncryptOptions, ProgressCallback,
 	isKeystoreJson, decryptKeystoreJson, encryptKeystoreJson, isAddress, isHexString
 } from "ethers";
-import { TypeUtil } from "denetwork-utils";
 import { TWalletBaseItem } from "../models/TWallet";
 import _ from "lodash";
 
@@ -18,7 +17,15 @@ export class EtherWallet
 	 */
 	public static isValidWalletFactoryData( wallet : any ) : boolean
 	{
-		return TypeUtil.isNotNullObjectWithKeys( wallet, [ 'isHD', 'mnemonic', 'password', 'address', 'publicKey', 'privateKey', 'index', 'path' ] );
+		return _.isObject( wallet ) &&
+			_.has( wallet, 'isHD' ) &&
+			_.has( wallet, 'mnemonic' ) &&
+			_.has( wallet, 'password' ) &&
+			_.has( wallet, 'address' ) &&
+			_.has( wallet, 'publicKey' ) &&
+			_.has( wallet, 'privateKey' ) &&
+			_.has( wallet, 'index' ) &&
+			_.has( wallet, 'path' );
 	}
 
 	// public static createDerivedWalletObject( walletItem : TWalletBaseItem, derivePath ?: string )
@@ -187,11 +194,11 @@ export class EtherWallet
 				{
 					return reject( `invalid wallet` );
 				}
-				if ( ! TypeUtil.isNotEmptyString( wallet.address ) )
+				if ( ! _.isString( wallet.address ) || _.isEmpty( wallet.address ) )
 				{
 					return reject( `invalid wallet.address` );
 				}
-				if ( ! TypeUtil.isNotEmptyString( wallet.privateKey ) )
+				if ( ! _.isString( wallet.privateKey ) || _.isEmpty( wallet.privateKey ) )
 				{
 					return reject( `invalid wallet.privateKey` );
 				}

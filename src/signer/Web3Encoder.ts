@@ -1,4 +1,4 @@
-import { TypeUtil } from "denetwork-utils";
+import _ from "lodash";
 
 /**
  * 	@class Web3Encoder
@@ -77,7 +77,7 @@ export class Web3Encoder
 	 */
 	public static removeObjectKeys( obj : Record<string, any>, keysToRemove : Array<string> ) : Record<string, any>
 	{
-		if ( ! TypeUtil.isNotNullObject( obj ) )
+		if ( ! _.isObject( obj ) || null === obj )
 		{
 			return obj;
 		}
@@ -96,7 +96,7 @@ export class Web3Encoder
 	 */
 	public static reserveObjectKeys( obj : Record<string, any>, reservedKeys : Array<string> ) : Record<string, any>
 	{
-		if ( ! TypeUtil.isNotNullObject( obj ) )
+		if ( ! _.isObject( obj ) || null === obj )
 		{
 			return obj;
 		}
